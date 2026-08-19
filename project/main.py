@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import qrcode
 from PIL import Image, ImageTk
+import requests
 
 
 def generate_qrcode():
@@ -46,6 +47,12 @@ label_url.pack(padx = 20,pady = 50)
 entry_url = ttk.Entry(win , font = ("Arial 14") , width = 40)
 entry_url.pack(padx = 20,pady = 10)
 
+url = entry_url.get()
+if not url:
+    messagebox.showerror("Error", "Please enter a valid URL.")
+
+r = requests.get(f"{url}")
+print(r.status_code)
 
 button_generate = ttk.Button(win, text = "Generate QR Code",command = generate_qrcode, width = 20)
 button_generate.pack(padx = 20,pady = 10)
