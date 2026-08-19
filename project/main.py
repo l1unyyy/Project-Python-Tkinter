@@ -5,16 +5,29 @@ from PIL import Image, ImageTk
 import requests
 
 
+def parsing():
+    text1 = entry_url.get()
+    r = requests.get(f"{text1}")
+    if not text1:
+        messagebox.showerror("Error", "Please enter a valid URL.")
+        return
+    else:
+        if r.status_code == 200:
+            print(r.ok)
+    
+    
+
 def generate_qrcode():
     url = entry_url.get()
     if not url:
         messagebox.showerror("Error", "Please enter a valid URL.")
         return
-
+    
+    
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,        
-        box_size=12,
+        box_size=10,
         border=2,
     )
     qr.add_data(url)
@@ -47,15 +60,13 @@ label_url.pack(padx = 20,pady = 50)
 entry_url = ttk.Entry(win , font = ("Arial 14") , width = 40)
 entry_url.pack(padx = 20,pady = 10)
 
-url = entry_url.get()
-if not url:
-    messagebox.showerror("Error", "Please enter a valid URL.")
 
-r = requests.get(f"{url}")
-print(r.status_code)
 
 button_generate = ttk.Button(win, text = "Generate QR Code",command = generate_qrcode, width = 20)
 button_generate.pack(padx = 20,pady = 10)
+
+button_parsing = ttk.Button(win, text = "Parsing url", command = parsing , width = 20)
+button_parsing.pack(padx = 20,pady = 20)
 
 button_exit = ttk.Button(win, text = "Exit", command = win.destroy, width = 20)
 button_exit.pack(padx = 20,pady = 10)
